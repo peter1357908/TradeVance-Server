@@ -6,12 +6,8 @@
   * general data security: necessary?
 
 * Not-yet-coded Documents:
-  * User.inbox, User.sent, Message
-  * User.notes, Note
   * User.starredStrategies, User.starredModels, User.starredScripts
   * User.ownStrategies, User.ownModels, User.ownScripts
-  * User.simulatedAccount, SimulatedAccount, Order, Position
-  * MetaInformation
 
 
 # Sanity Check
@@ -22,6 +18,7 @@
 # Definitions, Specifications, and Clarifications
 
 * design subscription plans (add models into database manually? [subscription_plan_model.js](.\src\models\subscription_plan_model.js))
+* specify order/position types and respective params
 * specify notification preference types. [user_model.js](.\src\models\user_model.js)
 * specify alert types. [user_model.js](.\src\models\user_model.js)
 * specify storage format / path format for the scripts (or, its URL). [script_model.js](.\src\models\script_model.js)

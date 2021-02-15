@@ -12,6 +12,8 @@ const UserSchema = new Schema({
     description: String,
     website: String,
     company: String,
+
+    emailIsVerified: Boolean, // debatable placement
   },
   
   social: {
@@ -19,7 +21,7 @@ const UserSchema = new Schema({
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     ownPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
     starredPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    ownComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 
     // must be cautious; remember to update likeCount! It is NOT
     // calculated from querying all related data, but rather, 
@@ -32,6 +34,13 @@ const UserSchema = new Schema({
       script: Number,
     }
   },
+
+  messages: {
+    inbox: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
+    sent: [{ type: Schema.Types.ObjectId, ref: 'Message' }]
+  },
+
+  notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
 
   alerts: [
     {
@@ -47,6 +56,22 @@ const UserSchema = new Schema({
     billingFrequency: Number,
     autoRenew: Boolean,
 
+  },
+
+  simulatedAccounts: [{ type: Schema.Types.ObjectId, ref: 'SimulatedAccount' }],
+
+  ideas: {
+    own: {
+      strategies: [{ type: Schema.Types.ObjectId, ref: 'Strategy' }],
+      models: [{ type: Schema.Types.ObjectId, ref: 'Model' }],
+      scripts: [{ type: Schema.Types.ObjectId, ref: 'Script' }],
+    },
+
+    starred: {
+      strategies: [{ type: Schema.Types.ObjectId, ref: 'Strategy' }],
+      models: [{ type: Schema.Types.ObjectId, ref: 'Model' }],
+      scripts: [{ type: Schema.Types.ObjectId, ref: 'Script' }],
+    },
   },
 
   billing: {
