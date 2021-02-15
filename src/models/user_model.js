@@ -3,12 +3,12 @@ import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
   auth: {
-    email: { type: String, unique: true, lowercase: true },
+    username: { type: String, unique: true },
     password: String,
   },
 
   profile: {
-    username: { type: String, unique: true },
+    email: { type: String, unique: true, lowercase: true },
     profilePictureUrl: String,
     description: String,
     website: String,
@@ -109,7 +109,7 @@ const UserSchema = new Schema({
     transform(doc, ret, options) {
       ret.id = ret._id;
       delete ret._id;
-      delete ret.password;
+      delete ret.auth.password;
       delete ret.__v;
       return ret;
     },
@@ -117,16 +117,17 @@ const UserSchema = new Schema({
   timestamps: true,
 });
 
-UserSchema.pre('save', function saltHash(next) {
+UserSchema.pre('save', function saltAndHash(next) {
   // `this` is a reference to our User model
   // do not bind the function as it runs in other context
-  if (!this.isModified('password')) { return next(); }
+  // if (!this.isModified('auth.password')) { return next(); }
+  if (!this.isModified('auth.password')) { return next(); }
 
   const saltRounds = 10;
 
-  return bcrypt.hash(this.password, saltRounds)
+  return bcrypt.hash(this.auth.password, saltRounds)
     .then((saltedHash) => {
-      this.password = saltedHash;
+      this.auth.password = saltedHash;
       // we do not have to call save() pre-save...
       return next();
     })
@@ -138,7 +139,7 @@ UserSchema.pre('save', function saltHash(next) {
 // do not bind the function as it runs in other context
 // expected callback signature: callback(err, isMatch)
 UserSchema.methods.comparePassword = function comparePassword(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+  bcrypt.compare(candidatePassword, this.auth.password, (err, isMatch) => {
     if (err) {
       // JS shorthand? Why not `callback(err, null)`?
       return callback(err);

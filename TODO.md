@@ -1,5 +1,11 @@
 # High Priority
 
+* get rid of the node warnings
+
+* display the potential errors (on both client and server side)
+
+* make sure that restarting server = with a clean/empty database (every time I test, I throw away the database and automatically populate the data base for "integration testing"... of course, I should not do that for the deployed version)
+
 * make a root page containing API instructions
 
 * security in general:
@@ -14,7 +20,7 @@
 
 # Definitions, Specifications, and Clarifications
 
-* design subscription plans (add models into database manually? [subscription_plan_model.js](.\src\models\subscription_plan_model.js))
+* design subscription plans (add models into database manually? [subscription_plan_model.js](.\src\models\subscription_plan_model.js)
 * specify order/position types and respective params
 * specify notification preference types. [user_model.js](.\src\models\user_model.js)
 * specify alert types. [user_model.js](.\src\models\user_model.js)
@@ -46,6 +52,6 @@
 ## hard
 
 
+# Find out more about
 
-
-
+* in [user_controller.js](.\src\controllers\user_controller.js): `dotenv.config({ silent: true });`
