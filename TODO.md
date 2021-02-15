@@ -1,5 +1,7 @@
 # High Priority
 
+* make a root page containing API instructions
+
 * security in general:
   * password security: salt and hash and all that.
   * sensitive data security: e.g. billing information

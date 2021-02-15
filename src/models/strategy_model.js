@@ -6,13 +6,14 @@ const StrategySchema = new Schema({
   // social information
   // ====
   name: { type: String, unique: true },
+  visibility: { type: String, enum: ['public', 'followersOnly', 'private'] },
   likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   description: String,
 
   // content
   // ====
   models: [{ type: Schema.Types.ObjectId, ref: 'Model' }],
-  
+
   // Yes... as of now, a "strategy" is just a list of "models"...
 }, {
   toObject: { virtuals: true },
@@ -22,6 +23,5 @@ const StrategySchema = new Schema({
 
 // create model class
 const StrategyModel = mongoose.model('Strategy', StrategySchema, 'strategies');
-
 
 export default StrategyModel;

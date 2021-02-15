@@ -12,7 +12,7 @@ const OrderSchema = new Schema({
   limitPrice: Number, // per unit
 
   status: { type: String, enum: ['pending', 'canceled', 'filled'] },
-  
+
   // the following refers to the simulation date
   dateInitiated: Date,
   dateEnded: Date,
@@ -24,6 +24,5 @@ const OrderSchema = new Schema({
 
 // create model class
 const OrderModel = mongoose.model('Order', OrderSchema, 'orders');
-
 
 export default OrderModel;

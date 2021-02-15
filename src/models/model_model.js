@@ -6,6 +6,7 @@ const ModelSchema = new Schema({
   // social information
   // ====
   name: { type: String, unique: true },
+  visibility: { type: String, enum: ['public', 'followersOnly', 'private'] },
   likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   description: String,
 
@@ -27,6 +28,5 @@ const ModelSchema = new Schema({
 
 // create model class
 const ModelModel = mongoose.model('Model', ModelSchema, 'models');
-
 
 export default ModelModel;

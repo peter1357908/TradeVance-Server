@@ -6,6 +6,7 @@ const ScriptSchema = new Schema({
   // social information
   // ====
   name: { type: String, unique: true },
+  visibility: { type: String, enum: ['public', 'followersOnly', 'private'] },
   likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   description: String,
 
@@ -17,11 +18,10 @@ const ScriptSchema = new Schema({
   // key: name of the field, value: type of the field
   // They are for constructing the GUI for asking for input and displaying output
   inputTypes: { type: Map, of: String },
-  outputTypes: { type: Map, of: String }
+  outputTypes: { type: Map, of: String },
 });
 
 // create model class
 const ScriptModel = mongoose.model('Script', ScriptSchema, 'scripts');
-
 
 export default ScriptModel;

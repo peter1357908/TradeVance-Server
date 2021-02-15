@@ -2,9 +2,9 @@ import mongoose, { Schema } from 'mongoose';
 
 const SubscriptionPlanSchema = new Schema({
   name: String,
-  billingFrequency: Number, // in terms of days 
+  billingFrequency: Number, // in terms of days
 
-  maxStorage: Number // in MegaBytes; anything that takes up storage counts...?
+  maxStorage: Number, // in MegaBytes; anything that takes up storage counts...?
 
   // maxStrategies: Number,
   // maxModels: Number,
@@ -17,6 +17,5 @@ const SubscriptionPlanSchema = new Schema({
 
 // create model class
 const SubscriptionPlanModel = mongoose.model('SubscriptionPlan', SubscriptionPlanSchema, 'subscriptionplans');
-
 
 export default SubscriptionPlanModel;

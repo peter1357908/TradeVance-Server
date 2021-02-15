@@ -12,5 +12,4 @@ const NoteSchema = new Schema({
 // create model class
 const NoteModel = mongoose.model('Note', NoteSchema, 'notes');
 
-
 export default NoteModel;

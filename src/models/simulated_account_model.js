@@ -18,5 +18,4 @@ const SimulatedAccountSchema = new Schema({
 // create model class
 const SimulatedAccountModel = mongoose.model('SimulatedAccount', SimulatedAccountSchema, 'simulatedaccounts');
 
-
 export default SimulatedAccountModel;

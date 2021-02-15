@@ -7,7 +7,7 @@ const PositionSchema = new Schema({
   params: Map,
 
   amountHeld: Number,
-  averageCost: Number, // per unit 
+  averageCost: Number, // per unit
 
   // currently, a Position document is deleted upon a full exit (fully closed)
   // hence, fields like "status" and "dateEnded" are not yet meaningful.
@@ -24,6 +24,5 @@ const PositionSchema = new Schema({
 
 // create model class
 const PositionModel = mongoose.model('Position', PositionSchema, 'positions');
-
 
 export default PositionModel;

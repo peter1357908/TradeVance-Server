@@ -5,7 +5,7 @@ const PostSchema = new Schema({
 
   // social information
   // ====
-  tags: [ String ],
+  tags: [String],
   likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 
@@ -22,6 +22,5 @@ const PostSchema = new Schema({
 
 // create model class
 const PostModel = mongoose.model('Post', PostSchema, 'posts');
-
 
 export default PostModel;

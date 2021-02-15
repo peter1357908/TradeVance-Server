@@ -5,7 +5,7 @@ const MessageSchema = new Schema({
   toUser: { type: Schema.Types.ObjectId, ref: 'User' },
 
   inReplyTo: { type: Schema.Types.ObjectId, ref: 'Message' },
-  
+
   title: String,
   content: String,
 }, {
@@ -16,6 +16,5 @@ const MessageSchema = new Schema({
 
 // create model class
 const MessageModel = mongoose.model('Message', MessageSchema, 'messages');
-
 
 export default MessageModel;

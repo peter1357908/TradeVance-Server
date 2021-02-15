@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
-  auth:{
+  auth: {
     email: { type: String, unique: true, lowercase: true },
     password: String,
   },
@@ -15,7 +16,7 @@ const UserSchema = new Schema({
 
     emailIsVerified: Boolean, // debatable placement
   },
-  
+
   social: {
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
@@ -24,7 +25,7 @@ const UserSchema = new Schema({
     ownComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 
     // must be cautious; remember to update likeCount! It is NOT
-    // calculated from querying all related data, but rather, 
+    // calculated from querying all related data, but rather,
     // maintained separately!
     likeCount: {
       post: Number,
@@ -32,12 +33,12 @@ const UserSchema = new Schema({
       strategy: Number,
       model: Number,
       script: Number,
-    }
+    },
   },
 
   messages: {
     inbox: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
-    sent: [{ type: Schema.Types.ObjectId, ref: 'Message' }]
+    sent: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   },
 
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
@@ -46,7 +47,7 @@ const UserSchema = new Schema({
     {
       alertType: String,
       parameters: Map,
-    }
+    },
   ],
 
   subscription: {
@@ -76,7 +77,7 @@ const UserSchema = new Schema({
 
   billing: {
     cardNumber: String,
-    expirationMonth: Number,  // 1 - 12
+    expirationMonth: Number, // 1 - 12
     expirationYear: Number,
     cardHolderName: String,
     address: String,
@@ -102,9 +103,49 @@ const UserSchema = new Schema({
 
 }, {
   toObject: { virtuals: true },
-  toJSON: { virtuals: true },
+  toJSON: {
+    virtuals: true,
+    // remove password from the returned JSON; does not conflict with comparePassword()
+    transform(doc, ret, options) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+      delete ret.__v;
+      return ret;
+    },
+  },
   timestamps: true,
 });
+
+UserSchema.pre('save', function saltHash(next) {
+  // `this` is a reference to our User model
+  // do not bind the function as it runs in other context
+  if (!this.isModified('password')) { return next(); }
+
+  const saltRounds = 10;
+
+  return bcrypt.hash(this.password, saltRounds)
+    .then((saltedHash) => {
+      this.password = saltedHash;
+      // we do not have to call save() pre-save...
+      return next();
+    })
+    .catch((error) => {
+      return next(error);
+    });
+});
+
+// do not bind the function as it runs in other context
+// expected callback signature: callback(err, isMatch)
+UserSchema.methods.comparePassword = function comparePassword(candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    if (err) {
+      // JS shorthand? Why not `callback(err, null)`?
+      return callback(err);
+    }
+    return callback(null, isMatch);
+  });
+};
 
 // create model class
 const UserModel = mongoose.model('User', UserSchema, 'users');
