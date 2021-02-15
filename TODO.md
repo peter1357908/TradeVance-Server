@@ -5,11 +5,6 @@
   * sensitive data security: e.g. billing information
   * general data security: necessary?
 
-* Not-yet-coded Documents:
-  * User.starredStrategies, User.starredModels, User.starredScripts
-  * User.ownStrategies, User.ownModels, User.ownScripts
-
-
 # Sanity Check
 
 * Set up validation rules for the Mongoose documents (esp. in terms of length of input and size of scripts)
