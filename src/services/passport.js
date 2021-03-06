@@ -15,15 +15,14 @@ const jwtOptions = {
 
 // username + password authentication strategy
 const localLogin = new LocalStrategy(localOptions, (username, password, done) => {
-  // Verify this username and password, call done() with the user
-  // if it is the correct username and password
+  // Verify this username and password combination , call done() with
+  // the user if the combination is valid
   // otherwise, call done() with false
   User.findOne({ 'auth.username': username }, (err, foundUser) => {
     if (err) { return done(err); }
 
     if (!foundUser) { return done(null, false); }
 
-    // compare passwords - is `password` equal to user.auth.password?
     return foundUser.comparePassword(password, (err, isMatch) => {
       if (err) {
         return done(err);
@@ -40,6 +39,8 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   // See if the user ID in the payload exists in our database
   // If it does, call done() with that user
   // otherwise, call done() with `false`
+  // note that `payload` is the token object return by
+  // `tokenForUser()` at `UserController.signIn()`
   User.findById(payload.sub, (err, foundUser) => {
     if (err) {
       done(err);
@@ -54,5 +55,5 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 passport.use(localLogin);
 passport.use(jwtLogin);
 
-export const requireSignin = passport.authenticate('local', { session: false });
+export const requireSignIn = passport.authenticate('local', { session: false });
 export const requireAuth = passport.authenticate('jwt', { session: false });

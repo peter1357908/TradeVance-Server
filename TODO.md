@@ -10,8 +10,8 @@
 
 * security in general:
   * password security: salt and hash and all that.
-  * sensitive data security: e.g. billing information
-  * general data security: necessary?
+  * sensitive data security in storage: e.g. billing information
+  * general data security: encrypt the transmissions...
 
 # Sanity Check
 
