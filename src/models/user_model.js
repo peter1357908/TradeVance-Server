@@ -51,7 +51,7 @@ const UserSchema = new Schema({
   ],
 
   subscription: {
-    plan: [{ type: Schema.Types.ObjectId, ref: 'SubscriptionPlan' }],
+    plan: { type: Schema.Types.ObjectId, ref: 'SubscriptionPlan' },
     fromDate: Date,
     toDate: Date,
     billingFrequency: Number,
