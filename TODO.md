@@ -1,7 +1,5 @@
 # High Priority
 
-* get rid of the node warnings
-
 * display the potential errors (on both client and server side)
 
 * make sure that restarting server = with a clean/empty database (every time I test, I throw away the database and automatically populate the data base for "integration testing"... of course, I should not do that for the deployed version)
@@ -16,6 +14,7 @@
 # Sanity Check
 
 * Set up validation rules for the Mongoose documents (esp. in terms of length of input and size of scripts)
+  * start with username and password length validation
 
 
 # Definitions, Specifications, and Clarifications

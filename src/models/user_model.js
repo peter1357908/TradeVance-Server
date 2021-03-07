@@ -9,10 +9,10 @@ const UserSchema = new Schema({
 
   profile: {
     email: { type: String, unique: true, lowercase: true },
-    profilePictureUrl: String,
-    description: String,
-    website: String,
-    company: String,
+    profilePictureUrl: { type:String, default: '' },
+    description: { type: String, default: 'A TradeVance user.' },
+    website: { type: String, default: '' },
+    company: { type: String, default: '' },
 
     emailIsVerified: Boolean, // debatable placement
   },
@@ -28,11 +28,11 @@ const UserSchema = new Schema({
     // calculated from querying all related data, but rather,
     // maintained separately!
     likeCount: {
-      post: Number,
-      comment: Number,
-      strategy: Number,
-      model: Number,
-      script: Number,
+      post: { type: Number, default: 0 },
+      comment: { type: Number, default: 0 },
+      strategy: { type: Number, default: 0 },
+      model: { type: Number, default: 0 },
+      script: { type: Number, default: 0 },
     },
   },
 
@@ -56,6 +56,7 @@ const UserSchema = new Schema({
     toDate: Date,
     billingFrequency: Number,
     autoRenew: Boolean,
+    // autoRenew: { type: Boolean, default: false },
 
   },
 
@@ -89,8 +90,8 @@ const UserSchema = new Schema({
   // UX settings
   // ====
   privacy: {
-    showFollowers: Boolean,
-    showFollowing: Boolean,
+    showFollowers: { type: Boolean, default: false },
+    showFollowing: { type: Boolean, default: false },
   },
 
   notificationPreference: {

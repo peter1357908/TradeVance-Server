@@ -8,9 +8,12 @@ import mongoose from 'mongoose';
 import apiRouter from './router';
 
 // DB Setup
+// the following `config` are all for fixing the DeprecationWarning
 const config = {
-  useNewUrlParser: true, // (node:24427) DeprecationWarning
-  useUnifiedTopology: true, // (node:24427) DeprecationWarning
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 };
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/TradeVance';
 mongoose.connect(mongoURI, config);
@@ -36,15 +39,16 @@ app.use(morgan('dev'));
 // app.set('views', path.join(__dirname, '../src/views'));
 
 // enable json message body for posting data to API
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // additional init stuff should go before routing
 
 // REGISTER THE ROUTES
 // =============================================================================
 // all of the routes will be prefixed with /api
-// this must go after app.use(bodyParser...), otherwise `req.body` wouldn't work
+// this must happen after enabling json message body,
+// otherwise `req.body` wouldn't work
 app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
