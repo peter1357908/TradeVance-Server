@@ -41,6 +41,13 @@ const UserSchema = new Schema({
     sent: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   },
 
+  watchlists: [
+    {
+      name: String,
+      symbols: [String],
+    },
+  ],
+
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
 
   alerts: [
