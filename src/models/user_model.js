@@ -14,7 +14,7 @@ const UserSchema = new Schema({
     website: { type: String, default: '' },
     company: { type: String, default: '' },
 
-    emailIsVerified: Boolean, // debatable placement
+    emailIsVerified: { type: Boolean, default: false }, // debatable placement
   },
 
   social: {
@@ -24,10 +24,10 @@ const UserSchema = new Schema({
     starredPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
     ownComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 
-    // must be cautious; remember to update likeCount! It is NOT
+    // must be cautious; remember to update individual likeCount! It is NOT
     // calculated from querying all related data, but rather,
     // maintained separately!
-    likeCount: {
+    likeCounts: {
       post: { type: Number, default: 0 },
       comment: { type: Number, default: 0 },
       strategy: { type: Number, default: 0 },
@@ -41,30 +41,19 @@ const UserSchema = new Schema({
     sent: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   },
 
-  watchlists: [
-    {
-      name: String,
-      symbols: [String],
-    },
-  ],
+  watchlists: [{ type: Schema.Types.ObjectId, ref: 'Watchlist' }],
 
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
 
-  alerts: [
-    {
-      alertType: String,
-      parameters: Map,
-    },
-  ],
+  alerts: [{ type: Schema.Types.ObjectId, ref: 'Alert' }],
 
   subscription: {
-    plan: { type: Schema.Types.ObjectId, ref: 'SubscriptionPlan' },
+    plan: { type: Schema.Types.ObjectId, ref: 'SubscriptionPlan', default: process.env.FREE_PLAN_ID || '605268c30d3b18515826f2d7' },
     fromDate: Date,
     toDate: Date,
     billingFrequency: Number,
     autoRenew: Boolean,
     // autoRenew: { type: Boolean, default: false },
-
   },
 
   simulatedAccounts: [{ type: Schema.Types.ObjectId, ref: 'SimulatedAccount' }],
@@ -115,8 +104,6 @@ const UserSchema = new Schema({
     virtuals: true,
     // remove password from the returned JSON; does not conflict with comparePassword()
     transform(doc, ret, options) {
-      ret.id = ret._id;
-      delete ret._id;
       delete ret.auth.password;
       delete ret.__v;
       return ret;

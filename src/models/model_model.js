@@ -15,7 +15,7 @@ const ModelSchema = new Schema({
   script: { type: Schema.Types.ObjectId, ref: 'Script' },
 
   // the list of securities over which the script runs, identified by ticker names
-  watchlist: [{ type: String }],
+  watchlist: [{ type: Schema.Types.ObjectId, ref: 'Watchlist' }],
 
   // key and value depends on the target script
   // (the Script contains instruction for the field names and the type of each field)

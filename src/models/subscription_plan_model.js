@@ -2,10 +2,12 @@ import mongoose, { Schema } from 'mongoose';
 
 const SubscriptionPlanSchema = new Schema({
   name: String,
-  billingFrequency: Number, // in terms of days
+  billingFrequency: Number, // in terms of days; `0` means no billing is required
 
-  maxStorage: Number, // in MegaBytes; anything that takes up storage counts...?
+  // maxStorage: Number, // in MegaBytes. However, what counts as "taking up storage"?
 
+  // maxWatchLists: Number,
+  // maxSimulatedAccounts: Number,
   // maxStrategies: Number,
   // maxModels: Number,
   // maxScripts: Number,

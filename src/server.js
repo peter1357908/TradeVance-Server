@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-// import path from 'path';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 
-import apiRouter from './router';
+import APIRouter from './router';
 
 // DB Setup
 // the following `config` are all for fixing the DeprecationWarning
@@ -48,7 +47,7 @@ app.use(express.json());
 // all of the routes will be prefixed with /api
 // this must happen after enabling json message body,
 // otherwise `req.body` wouldn't work
-app.use('/api', apiRouter);
+app.use('/api', APIRouter);
 
 app.get('/', (req, res) => {
   res.send('This is the root of the API server of TradeVance; you should not be here.');

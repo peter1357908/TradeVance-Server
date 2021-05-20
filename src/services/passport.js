@@ -9,8 +9,7 @@ const localOptions = { usernameField: 'username' };
 // "pass in the jwt in an `authorization` header so passport can find it there" ...???
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  // TODO: what about `dotenv.config({ silent: true });`??
-  secretOrKey: process.env.AUTH_SECRET,
+  secretOrKey: process.env.AUTH_SECRET || 'test_auth_secret',
 };
 
 // username + password authentication strategy
@@ -40,7 +39,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   // If it does, call done() with that user
   // otherwise, call done() with `false`
   // note that `payload` is the token object return by
-  // `tokenForUser()` at `UserController.signIn()`
+  // `tokenForUser()` at `AuthController.signIn()`
   User.findById(payload.sub, (err, foundUser) => {
     if (err) {
       done(err);
